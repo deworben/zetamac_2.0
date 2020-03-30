@@ -1,2 +1,4 @@
-.gitattributes
+*.gitattributes
 .git-crypt/**
+*.gitignore
+.gitattributes
