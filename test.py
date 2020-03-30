@@ -6,7 +6,7 @@
 
 from threading import Thread, Timer, Event
 
-# Some ANSI/VT100 Terminal Control Escape Sequences
+# Some ANSI/VT100 Terminal Control Escape Sequences - for the front
 CSI = '\x1b['
 SAVE_CURSOR = CSI + 's'
 UNSAVE_CURSOR = CSI + 'u'
