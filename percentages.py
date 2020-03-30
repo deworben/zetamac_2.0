@@ -35,6 +35,7 @@ def makeNum():
 
 
 t.start()
+
 while True:
 #create question
     num1 = makeNum()
