@@ -1,4 +1,3 @@
-
 import time
 from random import seed
 from random import random
@@ -13,17 +12,18 @@ errorTot = 0
 userAns = 0
 
 
-import select
-import sys
-
 def runKill():
+
     for i in range(20):
         print(".")
     print("Game is over, wit total error = " + str(errorTot))
     for i in range(10):
         print(".")
+
+
 # t = Timer(gameTime, print, ['Sorry, times up'])
 t = Timer(gameTime, runKill)
+
 
 def makeNum():
     temp = int(random() * 50)
@@ -33,33 +33,33 @@ def makeNum():
         return temp
 
 
-
 t.start()
-
 while True:
-#create question
+    # create question
     num1 = makeNum()
     num2 = makeNum()
-    #making num2 smaller
+
+    # test-----
+    # making num2 smaller
     while num2 <= num1:
         num2 = makeNum()
-#create answer
-    ans = (100 * num1/num2)
-#user input answer
+    # create answer
+    ans = 100 * num1 / num2
+    # user input answer
     userAns = input("what is {} as a percentage of {}\n".format(num1, num2))
     try:
         userAns = float(userAns)
-    except:
+    except Exception:
         print("not a number")
         continue
-        
+
     # user_input = get_user_input('please insert something:', 2)
 
-#check how far off
+    # check how far off
     error = abs(userAns - ans)
-#print how far off 
+    # print how far off
     print("the correct answer is = {}, your error is = {} ".format(ans, error))
-#add total error amount to sum
+    # add total error amount to sum
     errorTot += error
 
 
