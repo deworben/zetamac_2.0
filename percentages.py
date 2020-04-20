@@ -7,17 +7,22 @@ from threading import Timer
 # seed random number generator
 seed(10)
 start = time.time()
-gameTime = 4
-errorTot = 0
-userAns = 0
+gameTime = 120
+numRight = 0
+numTot = 0
+maxDenom = 50
+ERROR_MARGIN = 1
 
 
 def runKill():
-
-    for i in range(20):
+    for _ in range(20):
         print(".")
-    print("Game is over, wit total error = " + str(errorTot))
-    for i in range(10):
+    print(
+        "{} correct and {} incorrect for an accuracy of {}".format(
+            numRight, numTot, (numRight * 100 / numTot)
+        )
+    )
+    for _ in range(10):
         print(".")
 
 
@@ -25,42 +30,50 @@ def runKill():
 t = Timer(gameTime, runKill)
 
 
-def makeNum():
-    temp = int(random() * 50)
+def makeNum(maxNum):
+    # Create a random number between 1 and maxNum-1
+    # the '-1' means the denominator never equals the numerator for trivial x/x
+    temp = float(int(random() * (maxNum - 1)))
     if temp == 0:
         return 1
     else:
         return temp
 
 
+userAns = 0.0
+error = 999
 t.start()
 while True:
     # create question
-    num1 = makeNum()
-    num2 = makeNum()
+    denominator = makeNum(maxDenom)
+    numerator = makeNum(denominator)
 
-    # test-----
-    # making num2 smaller
-    while num2 <= num1:
-        num2 = makeNum()
     # create answer
-    ans = 100 * num1 / num2
-    # user input answer
-    userAns = input("what is {} as a percentage of {}\n".format(num1, num2))
-    try:
-        userAns = float(userAns)
-    except Exception:
-        print("not a number")
-        continue
+    ans = 100 * numerator / denominator
 
-    # user_input = get_user_input('please insert something:', 2)
+    while error > ERROR_MARGIN:
+        # user input answer
+        userAns = input(
+            "what is {} as a percentage of {}\n".format(numerator, denominator)
+        )
+        try:
+            userAns = float(userAns)
+        except Exception:
+            print("not a number")
+            continue
 
-    # check how far off
-    error = abs(userAns - ans)
-    # print how far off
-    print("the correct answer is = {}, your error is = {} ".format(ans, error))
-    # add total error amount to sum
-    errorTot += error
+        # check how far off
+        error = abs(userAns - ans)
+        # print how far off
+        print(
+            "the correct answer is = {}, your error \
+             is = {} \n".format(
+                ans, error
+            )
+        )
+        numTot += 1
+    error = 999
+    numRight += 1
 
 
 t.cancel()
